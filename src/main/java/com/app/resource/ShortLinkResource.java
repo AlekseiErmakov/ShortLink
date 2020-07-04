@@ -45,4 +45,12 @@ public class ShortLinkResource {
         URI uri = new URI(shortLink.getOriginal());
         return Response.temporaryRedirect(uri).build();
     }
+
+    @GET
+    @Path("/stats/l/{uuid}")
+    public ShortLink getFullLinkStats(@PathParam("uuid") String uuid){
+        String root = "/l/";
+        ShortLink shortLink = shortLinkService.findByLink(root + uuid);
+        return shortLink;
+    }
 }
