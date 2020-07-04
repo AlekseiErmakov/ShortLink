@@ -60,4 +60,10 @@ public class ShortLinkResource {
     public List<ShortLink> getAll(){
         return shortLinkService.findAll();
     }
+
+    @GET
+    @Path("/stats")
+    public List<ShortLink> getSublist(@QueryParam("page") int page, @QueryParam("count") int count){
+        return shortLinkService.findSubList(page,count);
+    }
 }

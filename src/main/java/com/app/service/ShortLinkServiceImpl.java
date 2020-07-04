@@ -1,7 +1,6 @@
 package com.app.service;
 
 
-
 import com.app.exception.LinkNotFoundException;
 import com.app.model.ShortLink;
 import com.app.repository.ShortLinkRepository;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +41,30 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     }
 
     @Override
+    public List<ShortLink> findSubList(int page, int amount) {
+        List<ShortLink> all = findAll();
+        int pageCount = all.size() / amount;
+        if (amount > all.size()){
+            return findAll();
+        }
+        if (page > pageCount){
+            findSubList(pageCount,amount,all);
+        }
+        return findSubList(page,amount,all);
+    }
+
+    private List<ShortLink> findSubList(int page, int amount, List<ShortLink> all){
+        int start = (page - 1) * amount;
+        int end;
+        if ((start + amount) >= all.size()){
+            end = all.size() - 1;
+        } else {
+            end = start + amount;
+        }
+        return all.subList(start,end);
+    }
+
+    @Override
     public ShortLink findByLink(String link) {
         ShortLink shortLink = shortLinkRepository.findByLink(link)
                 .orElseThrow(() -> new LinkNotFoundException(link));
@@ -54,7 +76,7 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     public ShortLink findByLinkWithStats(String link) {
         ShortLink find = findAll().stream()
                 .filter(shortLink -> shortLink.getLink().equals(link))
-                .findFirst().orElseThrow(()->new LinkNotFoundException(link));
+                .findFirst().orElseThrow(() -> new LinkNotFoundException(link));
         return find;
     }
 
@@ -63,4 +85,5 @@ public class ShortLinkServiceImpl implements ShortLinkService {
         shortLink.setCount(++count);
         shortLinkRepository.save(shortLink);
     }
+
 }
