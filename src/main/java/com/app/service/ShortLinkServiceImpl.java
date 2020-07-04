@@ -5,6 +5,7 @@ package com.app.service;
 import com.app.exception.LinkNotFoundException;
 import com.app.model.ShortLink;
 import com.app.repository.ShortLinkRepository;
+import com.app.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +33,13 @@ public class ShortLinkServiceImpl implements ShortLinkService {
 
     @Override
     public List<ShortLink> findAll() {
-        List<ShortLink> all = shortLinkRepository.findAll();
-        List<ShortLink> sorted = all.stream()
-                .sorted((Comparator.comparing(ShortLink::getCount)))
-                .collect(Collectors.toList());
-        for (int i = 0; i < sorted.size(); i++) {
-            long rank = i + 1;
-            sorted.get(i).setRank(rank);
-        }
-        return sorted;
+        List<ShortLink> sortedLinks = shortLinkRepository.findByOrderByCountDesc();
+        return StreamUtils.withIndexies(sortedLinks).map(shortLinkIndexValue -> {
+            ShortLink value = shortLinkIndexValue.getValue();
+            value.setRank(1 + shortLinkIndexValue.getIndex());
+            return value;
+        }).collect(Collectors.toList());
+
     }
 
     @Override

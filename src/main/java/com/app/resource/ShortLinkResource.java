@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Path("")
 @Service
@@ -52,5 +53,11 @@ public class ShortLinkResource {
         String root = "/l/";
         ShortLink shortLink = shortLinkService.findByLinkWithStats(root + uuid);
         return shortLink;
+    }
+
+    @GET
+    @Path("/stats")
+    public List<ShortLink> getAll(){
+        return shortLinkService.findAll();
     }
 }
