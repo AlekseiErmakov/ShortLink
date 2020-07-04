@@ -51,6 +51,14 @@ public class ShortLinkServiceImpl implements ShortLinkService {
         return shortLink;
     }
 
+    @Override
+    public ShortLink findByLinkWithStats(String link) {
+        ShortLink find = findAll().stream()
+                .filter(shortLink -> shortLink.getLink().equals(link))
+                .findFirst().orElseThrow(()->new LinkNotFoundException(link));
+        return find;
+    }
+
     private void updateScore(ShortLink shortLink) {
         long count = shortLink.getCount();
         shortLink.setCount(++count);

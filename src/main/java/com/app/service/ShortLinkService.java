@@ -11,4 +11,6 @@ public interface ShortLinkService {
     List<ShortLink> findAll();
 
     ShortLink findByLink(String link);
+
+    ShortLink findByLinkWithStats(String link);
 }

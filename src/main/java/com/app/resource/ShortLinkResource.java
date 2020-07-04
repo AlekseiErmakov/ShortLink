@@ -50,7 +50,7 @@ public class ShortLinkResource {
     @Path("/stats/l/{uuid}")
     public ShortLink getFullLinkStats(@PathParam("uuid") String uuid){
         String root = "/l/";
-        ShortLink shortLink = shortLinkService.findByLink(root + uuid);
+        ShortLink shortLink = shortLinkService.findByLinkWithStats(root + uuid);
         return shortLink;
     }
 }
