@@ -27,19 +27,11 @@ public class ShortLinkResourceTest {
 
     @Before
     public void setUp() throws Exception {
-        ShortLinkService shortLinkService = Mockito.mock(ShortLinkService.class);
-        shortLinkResource = new ShortLinkResource(shortLinkService);
+
     }
 
     @Test
     public void cutLink() {
-        AddShortLinkRequest request = new AddShortLinkRequest(original);
-
-        Mockito.when(shortLinkService.addShortLink(google)).thenReturn(google);
-
-        AddShortLinkResponse response = new AddShortLinkResponse(google.getLink());
-
-        assertEquals(response, shortLinkResource.cutLink(request));
 
     }
 

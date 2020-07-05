@@ -8,7 +8,6 @@ import com.app.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +26,11 @@ public class ShortLinkServiceImpl implements ShortLinkService {
 
     @Override
     public ShortLink addShortLink(ShortLink shortLink) {
-        try{
+        try {
             ShortLink byLink = shortLinkRepository.findByOriginal(shortLink.getOriginal())
-                    .orElseThrow(()->new LinkNotFoundException(shortLink.getOriginal()));
+                    .orElseThrow(() -> new LinkNotFoundException(shortLink.getOriginal()));
             return byLink;
-        }catch (LinkNotFoundException ex){
+        } catch (LinkNotFoundException ex) {
             return shortLinkRepository.saveAndFlush(shortLink);
         }
     }
@@ -49,30 +48,30 @@ public class ShortLinkServiceImpl implements ShortLinkService {
 
     @Override
     public List<ShortLink> findSubList(int page, int amount) {
-        if (page == 0 || amount == 0){
+        if (page == 0 || amount == 0) {
             return new ArrayList<>();
         }
         List<ShortLink> all = findAll();
-        int pageCount = all.size() / amount + all.size()%amount;
+        int pageCount = all.size() / amount + all.size() % amount;
 
-        if (amount > all.size()){
+        if (amount > all.size()) {
             return findAll();
         }
-        if (page > pageCount){
-            findSubList(pageCount,amount,all);
+        if (page > pageCount) {
+            findSubList(pageCount, amount, all);
         }
-        return findSubList(page,amount,all);
+        return findSubList(page, amount, all);
     }
 
-    private List<ShortLink> findSubList(int page, int amount, List<ShortLink> all){
+    private List<ShortLink> findSubList(int page, int amount, List<ShortLink> all) {
         int start = (page - 1) * amount;
         int end;
-        if ((start + amount) >= all.size()){
+        if ((start + amount) >= all.size()) {
             end = all.size();
         } else {
             end = start + amount;
         }
-        return all.subList(start,end);
+        return all.subList(start, end);
     }
 
     @Override
@@ -80,7 +79,8 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     public ShortLink findByLink(String link) {
         ShortLink shortLink = shortLinkRepository.findByLink(link)
                 .orElseThrow(() -> new LinkNotFoundException(link));
-
+        Long count = shortLink.getCount();
+        shortLink.setCount(++count);
         return shortLinkRepository.saveAndFlush(shortLink);
     }
 
@@ -91,7 +91,6 @@ public class ShortLinkServiceImpl implements ShortLinkService {
                 .findFirst().orElseThrow(() -> new LinkNotFoundException(link));
         return find;
     }
-
 
 
 }

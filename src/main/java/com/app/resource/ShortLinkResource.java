@@ -29,7 +29,7 @@ public class ShortLinkResource {
 
     @POST
     @Path("/generate")
-    public AddShortLinkResponse cutLink(AddShortLinkRequest request){
+    public AddShortLinkResponse cutLink(AddShortLinkRequest request) {
 
         ShortLink shortLink = new ShortLink();
         shortLink.setOriginal(request.getOriginal());
@@ -50,7 +50,7 @@ public class ShortLinkResource {
 
     @GET
     @Path("/stats/l/{uuid}")
-    public ShortLink getFullLinkStats(@PathParam("uuid") String uuid){
+    public ShortLink getFullLinkStats(@PathParam("uuid") String uuid) {
         String root = "/l/";
         ShortLink shortLink = shortLinkService.findByLinkWithStats(root + uuid);
         return shortLink;
@@ -58,7 +58,7 @@ public class ShortLinkResource {
 
     @GET
     @Path("/stats")
-    public List<ShortLink> getSublist(@QueryParam("page") int page, @QueryParam("count") int count){
-        return shortLinkService.findSubList(page,count);
+    public List<ShortLink> getSublist(@QueryParam("page") int page, @QueryParam("count") int count) {
+        return shortLinkService.findSubList(page, count);
     }
 }

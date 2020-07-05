@@ -31,18 +31,15 @@ public class ShortLink {
     private long rank;
 
     @Column(name = "count")
-    private Long count;
+    private long count;
 
     @PrePersist
     public void toCreate() {
         if (link == null) {
             UUID uuid = UUID.randomUUID();
-            link = "/l/" + uuid;
+            setLink("/l/" + uuid);
         }
+
     }
 
-    @PreUpdate
-    public void toUpdate() {
-        count++;
-    }
 }

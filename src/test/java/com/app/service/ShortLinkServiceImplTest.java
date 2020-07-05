@@ -71,7 +71,8 @@ public class ShortLinkServiceImplTest {
         shortLink.setOriginal(maven);
         shortLink.setLink("/l/1267127981dsj");
         Mockito.when(repository.saveAndFlush(shortLink)).thenReturn(shortLink);
-        Mockito.when(repository.findByLink(shortLink.getLink())).thenReturn(Optional.ofNullable(null));
+        Mockito.when(repository.findByOriginal(shortLink.getOriginal())).thenReturn(Optional.ofNullable(null));
+
         ShortLink saved = shortLinkService.addShortLink(shortLink);
 
         assertEquals(maven, saved.getOriginal());
@@ -124,6 +125,8 @@ public class ShortLinkServiceImplTest {
     public void findByLinkWithStats() {
 
         ShortLink foundLink = shortLinkService.findByLinkWithStats(mailLink);
-        assertEquals(mailShortLink,foundLink);
+        assertEquals(mailShortLink, foundLink);
     }
+
+
 }
