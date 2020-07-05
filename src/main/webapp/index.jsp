@@ -14,11 +14,13 @@
                 <small id="originalHint" class="form-text text-muted">Use generated link for to access the resource</small>
             </div>
             <button type="button" class="btn btn-info">Submit</button>
+            <div class="mt-4 result-link"></div>
         </form>
     </div>
     <script>
         var form = document.querySelector('.link-form');
         var btn = form.querySelector('button');
+        var result = document.querySelector('.result-link');
         btn.addEventListener('click', () => {
             var link = form.querySelector('#original').value;
             if (link) {
@@ -26,7 +28,14 @@
                 var json = JSON.stringify({
                     original: link
                 });
-                xhr.open("POST", '/webapi/generate', true)
+                xhr.addEventListener('load', () => {
+                    if (xhr.status === 200) {
+                        result.innerHTML = xhr.response.link;
+                    } else {
+                        console.log('Status: ' + xhr.status + ' ' + xhr.statusText);
+                    }
+                });
+                xhr.open("POST", '/webapi/generate', true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(json);
             }
