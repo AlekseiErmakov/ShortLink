@@ -34,7 +34,6 @@ public class ShortLinkResource {
         ShortLink shortLink = new ShortLink();
         shortLink.setOriginal(request.getOriginal());
         ShortLink fromDb = shortLinkService.addShortLink(shortLink);
-
         AddShortLinkResponse response = new AddShortLinkResponse(fromDb.getLink());
         return response;
     }
