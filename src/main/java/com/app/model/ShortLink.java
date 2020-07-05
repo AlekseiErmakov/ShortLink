@@ -3,6 +3,7 @@ package com.app.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class ShortLink {
 
     @Id
@@ -29,7 +31,7 @@ public class ShortLink {
     private long rank;
 
     @Column(name = "count")
-    private long count;
+    private Long count;
 
     @PrePersist
     public void toCreate() {
@@ -37,5 +39,10 @@ public class ShortLink {
             UUID uuid = UUID.randomUUID();
             link = "/l/" + uuid;
         }
+    }
+
+    @PreUpdate
+    public void toUpdate() {
+        count++;
     }
 }

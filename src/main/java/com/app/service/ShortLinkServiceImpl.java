@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,12 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     @Override
     @Transactional
     public ShortLink addShortLink(ShortLink shortLink) {
-        return shortLinkRepository.save(shortLink);
+        try{
+            ShortLink byLink = findByLink(shortLink.getLink());
+            return byLink;
+        }catch (LinkNotFoundException ex){
+            return shortLinkRepository.saveAndFlush(shortLink);
+        }
     }
 
     @Override
@@ -42,8 +48,12 @@ public class ShortLinkServiceImpl implements ShortLinkService {
 
     @Override
     public List<ShortLink> findSubList(int page, int amount) {
+        if (page == 0 || amount == 0){
+            return new ArrayList<>();
+        }
         List<ShortLink> all = findAll();
-        int pageCount = all.size() / amount;
+        int pageCount = all.size() / amount + all.size()%amount;
+
         if (amount > all.size()){
             return findAll();
         }
@@ -57,7 +67,7 @@ public class ShortLinkServiceImpl implements ShortLinkService {
         int start = (page - 1) * amount;
         int end;
         if ((start + amount) >= all.size()){
-            end = all.size() - 1;
+            end = all.size();
         } else {
             end = start + amount;
         }
@@ -68,8 +78,8 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     public ShortLink findByLink(String link) {
         ShortLink shortLink = shortLinkRepository.findByLink(link)
                 .orElseThrow(() -> new LinkNotFoundException(link));
-        updateScore(shortLink);
-        return shortLink;
+
+        return shortLinkRepository.saveAndFlush(shortLink);
     }
 
     @Override
@@ -80,10 +90,6 @@ public class ShortLinkServiceImpl implements ShortLinkService {
         return find;
     }
 
-    private void updateScore(ShortLink shortLink) {
-        long count = shortLink.getCount();
-        shortLink.setCount(++count);
-        shortLinkRepository.save(shortLink);
-    }
+
 
 }
