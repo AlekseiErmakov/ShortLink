@@ -30,7 +30,7 @@
                 });
                 xhr.addEventListener('load', () => {
                     if (xhr.status === 200) {
-                        result.innerHTML = xhr.response.link;
+                        result.innerHTML = xhr.response;
                     } else {
                         console.log('Status: ' + xhr.status + ' ' + xhr.statusText);
                     }
