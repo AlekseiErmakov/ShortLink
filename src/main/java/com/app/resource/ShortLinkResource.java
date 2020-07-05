@@ -41,7 +41,7 @@ public class ShortLinkResource {
     @GET
     @Path("l/{uuid}")
     public Response getOriginalResource(@PathParam("uuid") String uuid) throws URISyntaxException {
-        String root = "/l/";
+        String root = "/api/l/";
         ShortLink shortLink = shortLinkService.findByLink(root + uuid);
         URI uri = new URI(shortLink.getOriginal());
         return Response.temporaryRedirect(uri).build();
@@ -50,7 +50,7 @@ public class ShortLinkResource {
     @GET
     @Path("/stats/l/{uuid}")
     public ShortLink getFullLinkStats(@PathParam("uuid") String uuid) {
-        String root = "/l/";
+        String root = "/api/l/";
         ShortLink shortLink = shortLinkService.findByLinkWithStats(root + uuid);
         return shortLink;
     }

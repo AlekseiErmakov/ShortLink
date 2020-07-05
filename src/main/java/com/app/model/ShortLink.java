@@ -37,7 +37,7 @@ public class ShortLink {
     public void toCreate() {
         if (link == null) {
             UUID uuid = UUID.randomUUID();
-            setLink("/l/" + uuid);
+            setLink("/api/l/" + uuid);
         }
 
     }

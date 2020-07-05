@@ -7,7 +7,7 @@
 <body>
     <div class="container mx-auto">
         <h2 class="mt-5">Short link creation</h2>
-        <form class="link-form" method="post" action="/webapi/generate">
+        <form class="link-form" method="post" action="/api/generate">
             <div class="form-group">
                 <label for="original">Your link</label>
                 <input type="text" class="form-control" id="original" name="original" aria-describedby="originalHint">
@@ -35,7 +35,7 @@
                         console.log('Status: ' + xhr.status + ' ' + xhr.statusText);
                     }
                 });
-                xhr.open("POST", '/webapi/generate', true);
+                xhr.open("POST", '/api/generate', true);
                 xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
                 xhr.send(json);
             }
