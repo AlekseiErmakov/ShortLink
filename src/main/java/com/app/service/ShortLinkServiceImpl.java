@@ -6,6 +6,7 @@ import com.app.model.ShortLink;
 import com.app.repository.ShortLinkRepository;
 import com.app.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,6 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     }
 
     @Override
-    @Transactional
     public ShortLink addShortLink(ShortLink shortLink) {
         try{
             ShortLink byLink = shortLinkRepository.findByOriginal(shortLink.getOriginal())
@@ -76,6 +76,7 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     }
 
     @Override
+    @Cacheable("links")
     public ShortLink findByLink(String link) {
         ShortLink shortLink = shortLinkRepository.findByLink(link)
                 .orElseThrow(() -> new LinkNotFoundException(link));
