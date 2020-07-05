@@ -33,11 +33,14 @@ public class ShortLinkRepositoryTest {
     public void setUp(){
         repository.deleteAll();
     }
+
     @Test
     public void testSaveLink() {
         ShortLink shortLink = repository.saveAndFlush(ShortLinkRepositoryTest.shortLink);
 
         assertTrue(shortLink.getLink().startsWith("/api/l/"));
+
+        repository.delete(shortLink);
 
     }
 
@@ -46,7 +49,7 @@ public class ShortLinkRepositoryTest {
         ShortLink shortLink = repository.saveAndFlush(ShortLinkRepositoryTest.shortLink);
 
         assertEquals(shortLink,repository.findByLink(shortLink.getLink()).get());
-
+        repository.delete(shortLink);
     }
 
     @Test
@@ -72,5 +75,7 @@ public class ShortLinkRepositoryTest {
         assertEquals(twoLink,byOrderByCountDesc.get(0));
 
         assertEquals(Arrays.asList(twoLink,oneLink,threeLink),byOrderByCountDesc);
+
+        repository.delete(byOrderByCountDesc);
     }
 }
