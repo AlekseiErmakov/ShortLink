@@ -4,7 +4,6 @@ import com.app.dto.AddShortLinkRequest;
 import com.app.dto.AddShortLinkResponse;
 import com.app.model.ShortLink;
 import com.app.service.ShortLinkService;
-import com.app.service.ShortLinkServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -53,7 +52,7 @@ public class ShortLinkResourceTest {
         Mockito.when(shortLinkService.addShortLink(google)).thenReturn(googleWithLink);
         AddShortLinkResponse response = new AddShortLinkResponse(googleWithLink.getLink());
 
-        assertEquals(response,shortLinkResource.cutLink(request));
+        assertEquals(response, shortLinkResource.cutLink(request));
     }
 
     @Test
@@ -62,7 +61,7 @@ public class ShortLinkResourceTest {
         Mockito.when(shortLinkService.findByLink(link)).thenReturn(google);
         URI uri = new URI(original);
         Response build = Response.temporaryRedirect(uri).build();
-        assertEquals(build.getStatus(),shortLinkResource.getOriginalResource(UUID).getStatus());
+        assertEquals(build.getStatus(), shortLinkResource.getOriginalResource(UUID).getStatus());
     }
 
 
@@ -70,12 +69,12 @@ public class ShortLinkResourceTest {
     public void getFullLinkStats() {
         Mockito.when(shortLinkService.findByLinkWithStats(link)).thenReturn(googleWithLink);
 
-        assertEquals(googleWithLink,shortLinkResource.getFullLinkStats(UUID));
+        assertEquals(googleWithLink, shortLinkResource.getFullLinkStats(UUID));
     }
 
     @Test
     public void getSublist() {
-        Mockito.when(shortLinkService.findSubList(1,1)).thenReturn(Arrays.asList(googleWithLink));
-        assertEquals(Arrays.asList(googleWithLink),shortLinkResource.getSublist(1,1));
+        Mockito.when(shortLinkService.findSubList(1, 1)).thenReturn(Arrays.asList(googleWithLink));
+        assertEquals(Arrays.asList(googleWithLink), shortLinkResource.getSublist(1, 1));
     }
 }

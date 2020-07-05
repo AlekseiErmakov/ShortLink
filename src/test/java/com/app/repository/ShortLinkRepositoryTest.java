@@ -1,7 +1,6 @@
 package com.app.repository;
 
 import com.app.model.ShortLink;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
@@ -30,7 +30,7 @@ public class ShortLinkRepositoryTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() {
         repository.deleteAll();
     }
 
@@ -48,7 +48,7 @@ public class ShortLinkRepositoryTest {
     public void findByLink() {
         ShortLink shortLink = repository.saveAndFlush(ShortLinkRepositoryTest.shortLink);
 
-        assertEquals(shortLink,repository.findByLink(shortLink.getLink()).get());
+        assertEquals(shortLink, repository.findByLink(shortLink.getLink()).get());
         repository.delete(shortLink);
     }
 
@@ -72,9 +72,9 @@ public class ShortLinkRepositoryTest {
 
         List<ShortLink> byOrderByCountDesc = repository.findByOrderByCountDesc();
 
-        assertEquals(twoLink,byOrderByCountDesc.get(0));
+        assertEquals(twoLink, byOrderByCountDesc.get(0));
 
-        assertEquals(Arrays.asList(twoLink,oneLink,threeLink),byOrderByCountDesc);
+        assertEquals(Arrays.asList(twoLink, oneLink, threeLink), byOrderByCountDesc);
 
         repository.delete(byOrderByCountDesc);
     }
