@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface ShortLinkRepository extends JpaRepository<ShortLink,Long> {
     Optional<ShortLink> findByLink(String link);
+    Optional<ShortLink> findByOriginal(String original);
     List<ShortLink> findByOrderByCountDesc();
 }

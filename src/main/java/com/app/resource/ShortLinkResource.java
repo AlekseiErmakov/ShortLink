@@ -30,6 +30,7 @@ public class ShortLinkResource {
     @POST
     @Path("/generate")
     public AddShortLinkResponse cutLink(AddShortLinkRequest request){
+
         ShortLink shortLink = new ShortLink();
         shortLink.setOriginal(request.getOriginal());
         ShortLink fromDb = shortLinkService.addShortLink(shortLink);
@@ -53,12 +54,6 @@ public class ShortLinkResource {
         String root = "/l/";
         ShortLink shortLink = shortLinkService.findByLinkWithStats(root + uuid);
         return shortLink;
-    }
-
-    @GET
-    @Path("/stats")
-    public List<ShortLink> getAll(){
-        return shortLinkService.findAll();
     }
 
     @GET

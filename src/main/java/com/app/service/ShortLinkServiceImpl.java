@@ -28,7 +28,8 @@ public class ShortLinkServiceImpl implements ShortLinkService {
     @Transactional
     public ShortLink addShortLink(ShortLink shortLink) {
         try{
-            ShortLink byLink = findByLink(shortLink.getLink());
+            ShortLink byLink = shortLinkRepository.findByOriginal(shortLink.getOriginal())
+                    .orElseThrow(()->new LinkNotFoundException(shortLink.getOriginal()));
             return byLink;
         }catch (LinkNotFoundException ex){
             return shortLinkRepository.saveAndFlush(shortLink);
