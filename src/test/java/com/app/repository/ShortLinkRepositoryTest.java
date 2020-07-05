@@ -2,6 +2,7 @@ package com.app.repository;
 
 import com.app.model.ShortLink;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,16 @@ public class ShortLinkRepositoryTest {
 
     }
 
+    @Before
+    public void setUp(){
+        repository.deleteAll();
+    }
     @Test
     public void testSaveLink() {
         ShortLink shortLink = repository.saveAndFlush(ShortLinkRepositoryTest.shortLink);
 
-        assertTrue(shortLink.getLink().startsWith("/l/"));
+        assertTrue(shortLink.getLink().startsWith("/api/l/"));
 
-        repository.delete(shortLink);
     }
 
     @Test
@@ -42,7 +46,7 @@ public class ShortLinkRepositoryTest {
         ShortLink shortLink = repository.saveAndFlush(ShortLinkRepositoryTest.shortLink);
 
         assertEquals(shortLink,repository.findByLink(shortLink.getLink()).get());
-        repository.delete(shortLink);
+
     }
 
     @Test

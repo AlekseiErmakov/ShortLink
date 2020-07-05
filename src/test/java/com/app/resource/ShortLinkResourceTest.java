@@ -30,7 +30,7 @@ public class ShortLinkResourceTest {
     private static String original = "http://google.com";
     private static ShortLink google = new ShortLink();
     private static ShortLink googleWithLink = new ShortLink();
-    private static String link = "/l/12yg12y3g";
+    private static String link = "/api/l/12yg12y3g";
     private static String UUID = "12yg12y3g";
 
     static {
@@ -69,6 +69,7 @@ public class ShortLinkResourceTest {
     @Test
     public void getFullLinkStats() {
         Mockito.when(shortLinkService.findByLinkWithStats(link)).thenReturn(googleWithLink);
+
         assertEquals(googleWithLink,shortLinkResource.getFullLinkStats(UUID));
     }
 
