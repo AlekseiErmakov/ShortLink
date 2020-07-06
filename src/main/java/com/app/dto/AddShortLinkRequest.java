@@ -1,14 +1,34 @@
 package com.app.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.Objects;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class AddShortLinkRequest {
+
+
     private String original;
+
+    public AddShortLinkRequest(){
+
+    }
+
+    public AddShortLinkRequest(String original) {
+        this.original = original;
+    }
+
+    public String getOriginal() {
+        return original;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AddShortLinkRequest request = (AddShortLinkRequest) o;
+        return Objects.equals(original, request.original);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(original);
+    }
+
 }
