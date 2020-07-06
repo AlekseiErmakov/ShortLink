@@ -52,7 +52,7 @@ public class ShortLinkResourceTest {
         Mockito.when(shortLinkService.addShortLink(google)).thenReturn(googleWithLink);
         AddShortLinkResponse response = new AddShortLinkResponse(googleWithLink.getLink());
 
-        assertEquals(response, shortLinkResource.cutLink(request));
+        assertEquals(response.getLink(), shortLinkResource.cutLink(request).getLink());
     }
 
     @Test
